@@ -1,0 +1,22 @@
+{
+  // Place your settings in this file to overwrite default and user settings.
+  "editor.tabSize": 2,
+  "window.zoomLevel": 0,
+  "editor.fontSize": 12,
+  "editor.insertSpaces": true,
+  "eslint.workingDirectories": ["./client", "./server"],
+  "prettier.jsxBracketSameLine": true,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.useTabs": false,
+  "prettier.ignorePath": ".prettierignore",
+  "editor.formatOnSave": true,
+  "javascript.implicitProjectConfig.checkJs": true,
+  "search.exclude": {
+    "**/yarn.lock": true,
+    "**/package-lock": true,
+    "**/*.svg": true,
+    "**/ParkTemplate.jsx": true
+  }
+}
