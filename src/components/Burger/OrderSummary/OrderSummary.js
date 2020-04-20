@@ -18,6 +18,9 @@ const orderSummary = (props) => {
       <h3>Your Order</h3>
       <p>Burger ingridients:</p>
       <ul>{ingridientsSummary}</ul>
+      <p>
+        <strong>TotalPrice: {props.ingridients.totalPrice.toFixed(2)}€</strong>
+      </p>
       <p>Continue to Checkout?</p>
       <containers.ButtonContainer>
         <containers.ButtonDanger onClick={props.closeModal}>
