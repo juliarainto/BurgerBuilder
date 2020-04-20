@@ -1,6 +1,6 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import * as containers from '../styledBurger'
+import * as containers from '../../../styled/styledBurger'
 
 const burgerIngridient = (props) => {
   let ingridient = null
@@ -26,8 +26,8 @@ const burgerIngridient = (props) => {
     case 'salad':
       ingridient = <containers.Salad />
       break
-    case 'bacon':
-      ingridient = <containers.Bacon />
+    case 'tomato':
+      ingridient = <containers.Tomato />
       break
     default:
       ingridient = null

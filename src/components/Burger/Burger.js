@@ -1,5 +1,5 @@
 import React from 'react'
-import * as containers from './styledBurger'
+import * as containers from '../../styled/styledBurger'
 import Ingridients from './/Ingridients/Ingridients'
 
 const burger = (props) => {

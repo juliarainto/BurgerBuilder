@@ -4,6 +4,7 @@ export const Burger = styled.div`
   width: 100%;
   margin: auto;
   height: 250px;
+  overflow-y: auto;
   text-align: center;
   font-weight: bold;
   font-size: 1.2rem;
@@ -92,30 +93,75 @@ export const BuildControlButtonMore = styled.button`
   margin: 0 5px;
   width: 80px;
   border: 1px solid #aa6817;
-  cursor: pointer;
   outline: none;
-  background-color: #8f5e1e;
-  color: white;
-
-  &:hover {
-    background-color: #99703f;
-  }
-
-  &:hover:disabled {
-    background-color: #ac9980;
-    color: #ccc;
-    cursor: not-allowed;
-  }
 
   &:active {
     background-color: #99703f;
   }
 
-  &:disabled {
-    background-color: #ac9980;
-    border: 1px solid #7e7365;
-    color: #ccc;
-    cursor: default;
+  ${(props) =>
+    props.disabled
+      ? css`
+          background-color: #ac9980;
+          border: 1px solid #7e7365;
+          color: #ccc;
+          cursor: default;
+          &:hover {
+            background-color: #ac9980;
+            color: #ccc;
+            cursor: not-allowed;
+          }
+        `
+      : css`
+          border: 1px solid #aa6817;
+          cursor: pointer;
+          background-color: #8f5e1e;
+          color: white;
+          &:hover {
+            background-color: #99703f;
+          }
+        `};
+`
+
+export const BuildControlOrderButton = styled.button`
+  outline: none;
+  font-family: inherit;
+  font-size: 1.2em;
+  padding: 15px 30px;
+  box-shadow: 2px 2px 2px #966909;
+  margin: 20px 0 10px 0;
+
+  ${(props) =>
+    props.disabled
+      ? css`
+          background-color: #c7c6c6;
+          cursor: not-allowed;
+          border: 1px solid #ccc;
+          color: #888888;
+        `
+      : css`
+          border: 1px solid #966909;
+          cursor: pointer;
+          background-color: #dad735;
+          color: #966909;
+          animation: enable 0.3s linear;
+          &:hover {
+            background-color: #a0db41;
+            border: 1px solid #966909;
+            color: #966909;
+          }
+        `};
+
+  @keyframes enable {
+    0% {
+      transform: scale(1);
+    }
+    60% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 `
 
@@ -222,7 +268,7 @@ export const Salad = styled.div`
   border-radius: 20px;
 `
 
-export const Bacon = styled.div`
+export const Tomato = styled.div`
   width: 80%;
   height: 3%;
   background: linear-gradient(#bf3813, #c45e38);
