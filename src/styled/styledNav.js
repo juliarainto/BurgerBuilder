@@ -42,6 +42,24 @@ export const LogoImg = styled.img`
   height: 100%;
 `
 
+export const MenuIcon = styled.div`
+  background-color: white;
+  padding: 8px;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+
+  @media (min-width: 500px) {
+    margin-bottom: 0;
+  }
+`
+
+export const MenuIconImg = styled.img`
+  height: 100%;
+`
+
 export const NavigationItems = styled.ul`
   margin: 0;
   padding: 0;
@@ -126,12 +144,12 @@ export const SideDrawer = styled.div`
   }
 
   ${(props) =>
-    props.open
+    props.show
       ? `
-      transition: translateX(-100%);
+      transform: translateX(0);
       `
       : `
-      transition: translateX(0);
+      transform: translateX(-100%);
     `}
 `
 

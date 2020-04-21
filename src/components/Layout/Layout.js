@@ -9,7 +9,7 @@ const Layout = (props) => {
 
   return (
     <Aux>
-      <Toolbar />
+      <Toolbar drawerToggle={() => setShowSideDrawer(!showSideDrawer)} />
       <SideDrawer
         open={showSideDrawer}
         closed={() => setShowSideDrawer(false)}
