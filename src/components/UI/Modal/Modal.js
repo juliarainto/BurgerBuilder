@@ -1,13 +1,19 @@
-import React from 'react'
-import { Modal } from '../../../styled/styledUI'
+import React, { useEffect, memo } from 'react'
+import { ModalUI } from '../../../styled/styledUI'
 import Aux from '../../../hoc/AuxHoc'
 import Backdrop from '../Backdrop/Backdrop'
 
-const modal = (props) => (
-  <Aux>
-    <Backdrop show={props.show} clicked={props.closeModal} />
-    <Modal show={props.show}>{props.children}</Modal>
-  </Aux>
-)
+const Modal = (props) => {
+  useEffect(() => console.log('[Modal] updated'))
+  return (
+    <Aux>
+      <Backdrop show={props.show} clicked={props.closeModal} />
+      <ModalUI show={props.show}>{props.children}</ModalUI>
+    </Aux>
+  )
+}
 
-export default modal
+export default memo(
+  Modal,
+  (prevState, nextState) => prevState.show === nextState.show
+)

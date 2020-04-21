@@ -7,19 +7,16 @@ import Aux from '../../../hoc/AuxHoc'
 
 const sideDrawer = (props) => {
   return (
-    console.log(props.open),
-    (
-      <Aux>
-        <Backdrop show={props.open} clicked={props.closed} />
-        <containers.SideDrawer show={props.open}>
-          <Logo height="11%" />
+    <Aux>
+      <Backdrop show={props.open} clicked={props.closed} />
+      <containers.SideDrawer show={props.open}>
+        <Logo height="11%" />
 
-          <nav>
-            <NavigationItems />
-          </nav>
-        </containers.SideDrawer>
-      </Aux>
-    )
+        <nav>
+          <NavigationItems />
+        </nav>
+      </containers.SideDrawer>
+    </Aux>
   )
 }
 

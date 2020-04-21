@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Aux from '../../../hoc/AuxHoc'
 import * as containers from '../../../styled/styledUI'
 
-const orderSummary = (props) => {
+const OrderSummary = (props) => {
+  useEffect(() => console.log('[OrderSummary] updated'))
+
   const ingridientsSummary = Object.keys(props.ingridients.ingr).map(
     (igKey) => {
       return (
@@ -34,4 +36,4 @@ const orderSummary = (props) => {
   )
 }
 
-export default orderSummary
+export default OrderSummary
