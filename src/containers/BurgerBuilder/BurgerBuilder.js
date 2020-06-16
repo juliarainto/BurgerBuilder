@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Aux from '../../hoc/AuxHoc'
 import Burger from '../../components/Burger/Burger'
 import BurgerControl from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
+import axios from '../../axios-orders'
 
 const INGRIDIENT_PRICES = {
   salad: 0.2,
@@ -14,16 +17,29 @@ const INGRIDIENT_PRICES = {
 
 const BurgerBuilder = () => {
   const [ingridients, setIngridients] = useState({
-    ingr: {
-      salad: 0,
-      tomato: 0,
-      cheese: 0,
-      patty: 0,
-    },
+    ingr: null,
     totalPrice: 4,
     purchaseable: false,
     purchasing: false,
+    loading: false,
+    error: false
   })
+
+  useEffect(() => {
+    // Update the document title using the browser API
+    axios.get('https://burger-builder-86bab.firebaseio.com/ingridients.json')
+      .then(response => {
+        setIngridients({
+          ...ingridients,
+          ingr: response.data
+        })
+      }).catch(error => {
+        setIngridients({
+          ...ingridients,
+          error: true
+        })
+      });
+  }, []);
 
   function updatePurchaseState(newPrice, updatedIngridients) {
     const sum = Object.keys(updatedIngridients)
@@ -35,10 +51,10 @@ const BurgerBuilder = () => {
       }, 0)
 
     setIngridients({
+      ...ingridients,
       totalPrice: newPrice,
       ingr: updatedIngridients,
       purchaseable: sum > 0,
-      purchasing: ingridients.purchasing,
     })
   }
 
@@ -53,10 +69,9 @@ const BurgerBuilder = () => {
     const oldPrice = ingridients.totalPrice
     const newPrice = oldPrice + priceAddition
     setIngridients({
+      ...ingridients,
       totalPrice: newPrice,
       ingr: updatedIngridients,
-      purchaseable: ingridients.purchaseable,
-      purchasing: ingridients.purchasing,
     })
     updatePurchaseState(newPrice, updatedIngridients)
   }
@@ -75,10 +90,9 @@ const BurgerBuilder = () => {
     const oldPrice = ingridients.totalPrice
     const newPrice = oldPrice - priceAddition
     setIngridients({
+      ...ingridients,
       totalPrice: newPrice,
       ingr: updatedIngridients,
-      purchaseable: ingridients.purchaseable,
-      purchasing: ingridients.purchasing,
     })
     updatePurchaseState(newPrice, updatedIngridients)
   }
@@ -90,49 +104,95 @@ const BurgerBuilder = () => {
     disabledInfo[key] = disabledInfo[key] <= 0
   }
 
+  let orderSummary = null
+  let burger = ingridients.error ? <p>Ingridients can't be loaded</p> : <Spinner />
+  console.log(ingridients)
+  if (ingridients.ingr) {
+    burger = (
+      <Aux>
+        <Burger ingridients={ingridients.ingr}></Burger>
+        <BurgerControl
+          ingridientAdded={addIngridientHandler}
+          ingridientRemoved={removeIngridientHandler}
+          disabled={disabledInfo}
+          purchaseable={ingridients.purchaseable}
+          price={ingridients.totalPrice}
+          ordered={purchaseHandler}
+        />
+      </Aux>
+    )
+    orderSummary = <OrderSummary
+      ingridients={ingridients}
+      price={ingridients.totalPrice}
+      closeModal={purchaseCancelHandler}
+      continue={purchaseContinueHandler}
+    />
+  }
+
+  if (ingridients.loading) {
+    orderSummary = <Spinner />
+  }
+
   function purchaseHandler() {
     setIngridients({
-      totalPrice: ingridients.totalPrice,
-      ingr: ingridients.ingr,
-      purchaseable: ingridients.purchaseable,
+      ...ingridients,
       purchasing: true,
     })
   }
 
   function purchaseCancelHandler() {
     setIngridients({
-      totalPrice: ingridients.totalPrice,
-      ingr: ingridients.ingr,
-      purchaseable: ingridients.purchaseable,
+      ...ingridients,
       purchasing: false,
     })
   }
 
   function purchaseContinueHandler() {
-    alert('You continue!')
+    // alert('You continue!')
+    setIngridients({
+      ...ingridients,
+      loading: true
+    })
+    const order = {
+      totalPrice: ingridients.totalPrice,
+      ingr: ingridients.ingr,
+      customer: {
+        name: 'Julia Rainto',
+        address: {
+          street: 'test street',
+          zipCode: '33000',
+          country: 'Finland',
+        },
+        email: 'test@test.com',
+      },
+      deliveryMethod: 'now',
+    }
+    axios
+      .post('/orders.json', order)
+      .then((response) => {
+        setIngridients({
+          ...ingridients,
+          purchasing: false,
+          loading: false
+        })
+      })
+      .catch((error) => {
+        setIngridients({
+          ...ingridients,
+          purchasing: false,
+          loading: false
+        })
+      })
   }
 
   return (
     <Aux>
       <Modal show={ingridients.purchasing} closeModal={purchaseCancelHandler}>
-        <OrderSummary
-          ingridients={ingridients}
-          price={ingridients.totalPrice}
-          closeModal={purchaseCancelHandler}
-          continue={purchaseContinueHandler}
-        />
+        {orderSummary}
       </Modal>
-      <Burger ingridients={ingridients.ingr}></Burger>
-      <BurgerControl
-        ingridientAdded={addIngridientHandler}
-        ingridientRemoved={removeIngridientHandler}
-        disabled={disabledInfo}
-        purchaseable={ingridients.purchaseable}
-        price={ingridients.totalPrice}
-        ordered={purchaseHandler}
-      />
+      {burger}
     </Aux>
   )
 }
 
-export default BurgerBuilder
+export default withErrorHandler(BurgerBuilder, axios)

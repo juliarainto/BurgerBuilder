@@ -4,7 +4,7 @@ import Aux from '../../../hoc/AuxHoc'
 import Backdrop from '../Backdrop/Backdrop'
 
 const Modal = (props) => {
-  useEffect(() => console.log('[Modal] updated'))
+  useEffect(() => { console.log('[Modal] updated') })
   return (
     <Aux>
       <Backdrop show={props.show} clicked={props.closeModal} />
@@ -15,5 +15,6 @@ const Modal = (props) => {
 
 export default memo(
   Modal,
-  (prevState, nextState) => prevState.show === nextState.show
+  (prevProps, nextProps) => prevProps.show === nextProps.show &&
+    nextProps.children === prevProps.children
 )
