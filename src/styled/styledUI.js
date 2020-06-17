@@ -40,6 +40,12 @@ export const Backdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `
 
+export const ButtonContainerCheck = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`
+
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -79,4 +85,17 @@ export const ButtonDanger = styled.div`
     margin-left: 0;
     padding-left: 0;
   }
+`
+
+export const ButtonDangerCheck = styled.div`
+  background-color: transparent;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+  color: #944317;
 `

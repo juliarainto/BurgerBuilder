@@ -7,6 +7,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import axios from '../../axios-orders'
+import { checkPropTypes } from 'prop-types'
 
 const INGRIDIENT_PRICES = {
   salad: 0.2,
@@ -15,7 +16,8 @@ const INGRIDIENT_PRICES = {
   patty: 1.5,
 }
 
-const BurgerBuilder = () => {
+const BurgerBuilder = (props) => {
+  console.log(props)
   const [ingridients, setIngridients] = useState({
     ingr: null,
     totalPrice: 4,
@@ -148,41 +150,12 @@ const BurgerBuilder = () => {
   }
 
   function purchaseContinueHandler() {
-    // alert('You continue!')
-    setIngridients({
-      ...ingridients,
-      loading: true
+    props.history.push({
+      pathname: '/checkout',
+      state: ingridients.ingr,
+      price: ingridients.totalPrice
     })
-    const order = {
-      totalPrice: ingridients.totalPrice,
-      ingr: ingridients.ingr,
-      customer: {
-        name: 'Julia Rainto',
-        address: {
-          street: 'test street',
-          zipCode: '33000',
-          country: 'Finland',
-        },
-        email: 'test@test.com',
-      },
-      deliveryMethod: 'now',
-    }
-    axios
-      .post('/orders.json', order)
-      .then((response) => {
-        setIngridients({
-          ...ingridients,
-          purchasing: false,
-          loading: false
-        })
-      })
-      .catch((error) => {
-        setIngridients({
-          ...ingridients,
-          purchasing: false,
-          loading: false
-        })
-      })
+
   }
 
   return (
