@@ -29,10 +29,18 @@ export const ContactDataInput = styled.input`
 `
 
 export const OrderContainer = styled.div`
-  width: 100%;
+  width: 80%;
   border: 1px solid #eee;
   box-shadow: 0 2px 3px #ccc;
   padding: 10px;
   margin: 10px auto;
   box-sizing: border-box;
+`
+
+export const OrderSpan = styled.span`
+  text-transform: capitalize;
+  display: inline-block;
+  margin: 0 8px;
+  padding: 5px;
+  border: 1px solid #ccc;
 `

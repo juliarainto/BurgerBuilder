@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom';
 
 export const Toolbar = styled.header`
   height: 56px;
@@ -74,7 +75,7 @@ export const NavigationItems = styled.ul`
   }
 `
 
-export const NavigationItem = styled.div`
+export const NavigationItem = styled.li`
   margin: 10px 0;
   width: 100%
   box-sizing: border-box;
@@ -88,19 +89,16 @@ export const NavigationItem = styled.div`
   }
 `
 
-export const NavigationItemA = styled.a`
+export const NavigationItemA = styled(NavLink)`
   color: #8f5c2c;
   text-decoration: none;
   width: 100%;
   box-sizing: border-box;
   display: block;
 
-  ${(props) =>
-    props.active
-      ? `
-      color: #40a4cb;
-      `
-      : ``}
+  &.active {
+    color: #40a4cb; 
+  }   
 
   @media (min-width: 500px) {
     color: white;
@@ -109,14 +107,11 @@ export const NavigationItemA = styled.a`
     padding: 15px 10px;
     border-bottom: 4px solid transparent;
 
-    ${(props) =>
-      props.active
-        ? `
-        background-color: #8f5c2c;
-        border-bottom: 4px solid #40a4cb;
-        color: white;
-        `
-        : ``}
+    &.active {
+      background-color: #8f5c2c;
+      border-bottom: 4px solid #40a4cb;
+      color: white;
+    }
 
     &:hover {
       background-color: #8f5c2c;
